@@ -1,0 +1,22 @@
+id,manufacturer,model,year,transmission
+1,Toyota,Corolla,2023,CVT
+2,Ford,F-150,2023,Automatic
+3,Honda,Civic,2023,Manual
+4,Chevrolet,Silverado,2023,Automatic
+5,Tesla,Model 3,2023,Automatic
+6,Volkswagen,Golf,2023,Manual
+7,BMW,3 Series,2023,Automatic
+8,Mercedes-Benz,C-Class,2023,Automatic
+9,Nissan,Altima,2023,CVT
+10,Hyundai,Elantra,2023,CVT
+11,Toyota,Camry,2020,Automatic
+12,Ford,Mustang,2019,Manual
+13,Honda,Accord,2021,Automatic
+14,Chevrolet,Camaro,2018,Manual
+15,Tesla,Model S,2021,Automatic
+16,Volkswagen,Passat,2019,Automatic
+17,BMW,5 Series,2020,Automatic
+18,Mercedes-Benz,E-Class,2019,Automatic
+19,Nissan,Sentra,2020,CVT
+20,Hyundai,Tucson,2018,Automatic
+21,Audi,A4,2022,Automatic

@@ -25,6 +25,16 @@ def write_users(users_list):
     with open(User_FILE,"w") as f:
         json.dump(users_list,f)
 
+def authenticate_user(auth: AuthData = Depends()):
+    users = read_users()
+    for user in users:
+        if user["email"].lower() == auth.email.lower() and user["password"] == auth.password:
+            return user
+    raise HTTPException(
+        status_code=status.HTTP_401_UNAUTHORIZED,
+        detail="Incorrect email or password",
+    )
+
 @router.post("/register")
 def register_user(user : User):
     user_list = read_users()
@@ -51,15 +61,8 @@ def login_user(credentials: AuthData):
 
     raise HTTPException(status_code=401, detail="Invalid credentials")
 
-def authenticate_user(auth: AuthData = Depends()):
-    users = read_users()
-    for user in users:
-        if user["email"] == auth.email and user["password"] == auth.password:
-            return user
-    raise HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Incorrect email or password",
-    )
+
+
 
 # @router.get("/data")
 # def protected_data(user: dict = Depends(authenticate_user)):
