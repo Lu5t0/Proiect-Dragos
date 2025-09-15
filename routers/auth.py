@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException,Depends,status
+from fastapi import APIRouter, HTTPException,status
 from pydantic import BaseModel,EmailStr
 import json
 
@@ -25,10 +25,10 @@ def write_users(users_list):
     with open(User_FILE,"w") as f:
         json.dump(users_list,f)
 
-def authenticate_user(auth: AuthData = Depends()):
+def authenticate_user( email: str, password: str):
     users = read_users()
     for user in users:
-        if user["email"].lower() == auth.email.lower() and user["password"] == auth.password:
+        if user["email"].lower() == email.lower() and user["password"] == password:
             return user
     raise HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
