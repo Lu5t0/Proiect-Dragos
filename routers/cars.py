@@ -6,6 +6,12 @@ from pydantic import BaseModel
 
 router = APIRouter(prefix="/cars", tags=["Cars"])
 cars_list = "db/cars.csv"
+class Cars(BaseModel):
+    manufacturer: str
+    model: str
+    year: str
+    transmission: str
+    price_usd: str
 
 @router.get("")
 def get_all_cars(email: str, password: str):
@@ -18,14 +24,40 @@ def get_all_cars(email: str, password: str):
         return cars
 
 @router.post("/add")
-def add_car(email: str, password: str, manufacturer: str, model: str, year: str, transmission: str):
+def add_car(email: str, password: str, cars: Cars):
     user = authenticate_user(email, password)
-    field_names = ["id", "manufacturer", "model", "year", "transmission"]
+    field_names = ["id", "manufacturer", "model", "year", "transmission", "price_usd"]
 
-    with open(cars_list, "r+", newline="", encoding="utf-8") as csvfile:
-        csvfile.seek(0)
-        lines = len(csvfile.readlines())
+    with open(cars_list, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        rows = list(reader)
+        last_id = max(int(row["id"]) for row in rows)
 
-        csv_dict_writer = csv.DictWriter(csvfile, fieldnames=field_names)
-        csv_dict_writer.writerow({"id": lines, "manufacturer": manufacturer, "model": model, "year": year, "transmission": transmission})
-        return "Added car successfully"
+    new_id = last_id + 1
+
+    with open(cars_list, "a", newline="", encoding="utf-8") as f:
+            writer = csv.DictWriter(f, fieldnames=field_names, lineterminator="\n")
+            writer.writerow({
+                "id": new_id,
+                "manufacturer": cars.manufacturer,
+                "model": cars.model,
+                "year": cars.year,
+                "transmission": cars.transmission,
+                "price_usd": cars.price_usd
+            })
+            return {"message":"Added car successfully"}
+
+@router.get("/search")
+def cars_by_model(email: str, password: str,model: str):
+    user = authenticate_user(email, password)
+    with open(cars_list, "r", newline="", encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        cars = list(reader)
+        for car in cars:
+            car.pop("id")
+    result = [car for car in cars if model.lower() in car["model"].lower()]
+
+    if not  result:
+        raise HTTPException(status_code=404, detail="No cars found with that model")
+
+    return result
