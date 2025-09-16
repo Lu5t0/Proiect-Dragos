@@ -1,31 +1,31 @@
-id,manufacturer,model,year,transmission,price_usd
-1,Toyota,Corolla,2023,CVT,22000
-2,Ford,F-150,2023,Automatic,45000
-3,Honda,Civic,2023,Manual,21000
-4,Chevrolet,Silverado,2023,Automatic,43000
-5,Tesla,Model 3,2023,Automatic,48000
-6,Volkswagen,Golf,2023,Manual,23000
-7,BMW,3 Series,2023,Automatic,42000
-8,Mercedes-Benz,C-Class,2023,Automatic,44000
-9,Nissan,Altima,2023,CVT,24000
-10,Hyundai,Elantra,2023,CVT,20000
-11,Toyota,Camry,2020,Automatic,25000
-12,Ford,Mustang,2019,Manual,27000
-13,Honda,Accord,2021,Automatic,26000
-14,Chevrolet,Camaro,2018,Manual,28000
-15,Tesla,Model S,2021,Automatic,80000
-16,Volkswagen,Passat,2019,Automatic,25000
-17,BMW,5 Series,2020,Automatic,54000
-18,Mercedes-Benz,E-Class,2019,Automatic,55000
-19,Nissan,Sentra,2020,CVT,21000
-20,Hyundai,Tucson,2018,Automatic,23000
-21,Toyota,Yaris,2022,Automatic,19000
-22,Ford,Escape,2021,Automatic,27000
-23,Honda,HR-V,2022,CVT,25000
-24,Chevrolet,Malibu,2020,Automatic,24000
-25,Tesla,Model Y,2023,Automatic,52000
-26,Volkswagen,Tiguan,2021,Automatic,26000
-27,BMW,X3,2022,Automatic,47000
-28,Mercedes-Benz,GLA,2022,Automatic,46000
-29,Nissan,Rogue,2021,CVT,26000
-30,Hyundai,Kona,2023,Automatic,24000
+id,manufacturer,model,year,transmission,price_per_day_usd,available
+1,Toyota,Corolla,2023,CVT,100,True
+2,Ford,F-150,2023,Automatic,150,True
+3,Honda,Civic,2023,Manual,95,False
+4,Chevrolet,Silverado,2023,Automatic,140,True
+5,Tesla,Model 3,2023,Automatic,160,True
+6,Volkswagen,Golf,2023,Manual,90,True
+7,BMW,3 Series,2023,Automatic,170,True
+8,Mercedes-Benz,C-Class,2023,Automatic,180,True
+9,Nissan,Altima,2023,CVT,100,True
+10,Hyundai,Elantra,2023,CVT,85,True
+11,Toyota,Camry,2020,Automatic,95,True
+12,Ford,Mustang,2019,Manual,120,True
+13,Honda,Accord,2021,Automatic,100,True
+14,Chevrolet,Camaro,2018,Manual,125,True
+15,Tesla,Model S,2021,Automatic,250,True
+16,Volkswagen,Passat,2019,Automatic,95,True
+17,BMW,5 Series,2020,Automatic,200,True
+18,Mercedes-Benz,E-Class,2019,Automatic,210,True
+19,Nissan,Sentra,2020,CVT,85,True
+20,Hyundai,Tucson,2018,Automatic,90,True
+21,Toyota,Yaris,2022,Automatic,80,True
+22,Ford,Escape,2021,Automatic,100,True
+23,Honda,HR-V,2022,CVT,95,True
+24,Chevrolet,Malibu,2020,Automatic,90,True
+25,Tesla,Model Y,2023,Automatic,180,True
+26,Volkswagen,Tiguan,2021,Automatic,100,True
+27,BMW,X3,2022,Automatic,160,True
+28,Mercedes-Benz,GLA,2022,Automatic,165,True
+29,Nissan,Rogue,2021,CVT,100,True
+30,Hyundai,Kona,2023,Automatic,90,True

@@ -1,5 +1,4 @@
 import csv
-
 from fastapi import APIRouter, HTTPException
 from routers.auth import  authenticate_user
 from pydantic import BaseModel
@@ -11,7 +10,7 @@ class Cars(BaseModel):
     model: str
     year: str
     transmission: str
-    price_usd: str
+    price_per_day_usd: str
 
 @router.get("")
 def get_all_cars(email: str, password: str):
@@ -19,14 +18,12 @@ def get_all_cars(email: str, password: str):
     with open(cars_list, "r", newline="", encoding="utf-8") as csvfile:
         csv_dict_reader = csv.DictReader(csvfile)
         cars = list(csv_dict_reader)
-        for car in cars:
-            car.pop("id")
         return cars
 
 @router.post("/add")
 def add_car(email: str, password: str, cars: Cars):
     user = authenticate_user(email, password)
-    field_names = ["id", "manufacturer", "model", "year", "transmission", "price_usd"]
+    field_names = ["id", "manufacturer", "model", "year", "transmission", "price_per_day_usd","available"]
 
     with open(cars_list, "r", newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
@@ -43,7 +40,8 @@ def add_car(email: str, password: str, cars: Cars):
                 "model": cars.model,
                 "year": cars.year,
                 "transmission": cars.transmission,
-                "price_usd": cars.price_usd
+                "price_per_day_usd": cars.price_per_day_usd,
+                "available": True
             })
             return {"message":"Added car successfully"}
 
@@ -53,8 +51,7 @@ def cars_by_model(email: str, password: str,model: str):
     with open(cars_list, "r", newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         cars = list(reader)
-        for car in cars:
-            car.pop("id")
+
     result = [car for car in cars if model.lower() in car["model"].lower()]
 
     if not  result:
