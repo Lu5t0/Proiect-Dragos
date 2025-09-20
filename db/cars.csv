@@ -1,7 +1,7 @@
 id,manufacturer,model,year,transmission,price_per_day_usd,available
 1,Toyota,Corolla,2023,CVT,100,True
 2,Ford,F-150,2023,Automatic,150,True
-3,Honda,Civic,2023,Manual,95,False
+3,Honda,Civic,2023,Manual,95,True
 4,Chevrolet,Silverado,2023,Automatic,140,True
 5,Tesla,Model 3,2023,Automatic,160,True
 6,Volkswagen,Golf,2023,Manual,90,True

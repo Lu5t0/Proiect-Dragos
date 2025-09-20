@@ -7,9 +7,7 @@ loans_list = "db/loans.csv"
 cars_list = "db/cars.csv"
 
 @router.get("/top-cars")
-def top_cars(email: str, password: str):
-    user = authenticate_user(email, password)
-
+def top_cars():
     try:
         with open(loans_list, "r", newline="") as csvfile:
             reader = csv.DictReader(csvfile)

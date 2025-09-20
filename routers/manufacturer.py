@@ -13,8 +13,7 @@ class Manufacturer(BaseModel):
     global_sales: str
 
 @router.get("")
-def read_manufacturer(email: str, password: str):
-    user = authenticate_user(email,password)
+def read_manufacturer():
     with open(manu_list,"r", newline="", encoding="utf-8") as csvfile:
         csv_dict_reader = csv.DictReader(csvfile)
         manufacturers = list(csv_dict_reader)
@@ -32,6 +31,10 @@ def add_manufacturer(email: str, password: str, manu: Manufacturer):
         manufacturers = list(reader)
         last_id = max(int(row["id"]) for row in manufacturers)
 
+        for existing in manufacturers:
+            if existing["name"].strip().lower() == manu.name.strip().lower():
+                raise HTTPException(status_code=400, detail="This manufacturer is already registered")
+
     new_id = last_id + 1
 
     with open(manu_list,"a", newline="", encoding="utf-8") as csvfile:
@@ -46,8 +49,7 @@ def add_manufacturer(email: str, password: str, manu: Manufacturer):
         return {"message": "Manufacturer added"}
 
 @router.get("/search")
-def search_by_manufacturer(email: str, password: str, name: str):
-    user = authenticate_user(email,password)
+def search_by_manufacturer(name: str):
     with open(manu_list,"r", newline="", encoding="utf-8") as csvfile:
         reader = csv.DictReader(csvfile)
         manufacturers = list(reader)

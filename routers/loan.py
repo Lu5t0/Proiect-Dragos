@@ -60,14 +60,15 @@ def rent_car(email: str, password: str,car_id: int, rent_days: int):
     with open (loans_file, "a", newline="") as csvfile:
         writer = csv.writer(csvfile)
         if len(existing_loans) == 0:
-            writer.writerow(["loan_id", "car_id", "date"])
-        writer.writerow([loan_id, car_id, datetime.date.today().isoformat()])
+            writer.writerow(["loan_id", "car_id", "email", "date"])
+        writer.writerow([loan_id, car_id, user["email"], datetime.date.today().isoformat()])
 
 
     return {
         "message": f"Car with ID {car_id} has been rented for {rent_days} days.",
         "car": rented_car,
-        "total_price_usd": total_price}
+        "total_price_usd": total_price,
+        "rented_by": user["email"]}
 
 @router.put("/{car_id}/return")
 def return_car(email: str, password: str, car_id: int):
@@ -75,6 +76,19 @@ def return_car(email: str, password: str, car_id: int):
     rows = []
     car_found = False
     returned_car = None
+    loans_file = "db/loans.csv"
+    loan_found = False
+
+    try:
+        with open(loans_file, "r", newline="") as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if int(row["car_id"]) == car_id and row["email"] == user["email"]:
+                    loan_found = True
+                    break
+    except FileNotFoundError:
+        raise HTTPException(status_code=403, detail="Loan not found.")
+
 
     with open (cars_list, "r", newline="") as csvfile:
         reader = csv.DictReader(csvfile)
@@ -87,8 +101,9 @@ def return_car(email: str, password: str, car_id: int):
                 row["available"] = "True"
                 returned_car = row
             rows.append(row)
-    if not car_found:
-        raise HTTPException(status_code=404, detail="Car is not found")
+    if not loan_found:
+        raise HTTPException(status_code=403, detail="You cannot return this car because you didn't rent it.")
+
     with open (cars_list, "w", newline="") as csvfile:
         fieldnames = reader.fieldnames
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -96,7 +111,9 @@ def return_car(email: str, password: str, car_id: int):
         writer.writerows(rows)
 
     return {"message": f"Car with id {car_id} has been returned.",
-            "car": returned_car}
+            "car": returned_car,
+            "returned_by": user["email"]
+            }
 
 
 

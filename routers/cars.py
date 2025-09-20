@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 router = APIRouter(prefix="/cars", tags=["Cars"])
 cars_list = "db/cars.csv"
+manu_list = "db/manufacturer.csv"
 class Cars(BaseModel):
     manufacturer: str
     model: str
@@ -13,8 +14,7 @@ class Cars(BaseModel):
     price_per_day_usd: str
 
 @router.get("")
-def get_all_cars(email: str, password: str):
-    user = authenticate_user(email,password)
+def get_all_cars():
     with open(cars_list, "r", newline="", encoding="utf-8") as csvfile:
         csv_dict_reader = csv.DictReader(csvfile)
         cars = list(csv_dict_reader)
@@ -23,6 +23,17 @@ def get_all_cars(email: str, password: str):
 @router.post("/add")
 def add_car(email: str, password: str, cars: Cars):
     user = authenticate_user(email, password)
+
+    with open(manu_list, "r", newline="", encoding="utf-8") as csvfile:
+        reader = csv.DictReader(csvfile)
+        valid_manu = [row["name"].lower() for row in reader]
+
+        if cars.manufacturer.lower() not in valid_manu:
+            raise HTTPException(
+                status_code=400,
+                detail = f"Manufacturer {cars.manufacturer} is not registered."
+            )
+
     field_names = ["id", "manufacturer", "model", "year", "transmission", "price_per_day_usd","available"]
 
     with open(cars_list, "r", newline="", encoding="utf-8") as f:
@@ -46,8 +57,7 @@ def add_car(email: str, password: str, cars: Cars):
             return {"message":"Added car successfully"}
 
 @router.get("/search")
-def cars_by_model(email: str, password: str,model: str):
-    user = authenticate_user(email, password)
+def cars_by_model(model: str):
     with open(cars_list, "r", newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         cars = list(reader)
